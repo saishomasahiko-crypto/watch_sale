@@ -1,0 +1,169 @@
+<?php
+
+//-------------------------- g-shockの処理のみべたでコード変更しています　時間節約のため--------------------------------------
+
+	//------------------------------------------------mens-watch.biz ブランド・リンク
+
+	if ( $SHORI == 'mens-watch' ){
+
+		print "<url>\n";
+		print " <loc>" . 'http://mens-watch.biz/list/control/list_control.php?FREE_K=G-SHOCK' . "</loc>" . "\n";
+		print " <changefreq>hourly</changefreq>\n";
+		print "</url>\n";
+		print "\n";
+
+		print "<url>\n";
+		print " <loc>" . 'http://mens-watch.biz/list/control/list_control.php?FREE_K=Baby-G' . "</loc>" . "\n";
+		print " <changefreq>hourly</changefreq>\n";
+		print "</url>\n";
+		print "\n";
+
+		for ( $i = 0 ; $i < count($shouhin_id) ; $i++ ){
+		
+			print "<url>\n";
+			print " <loc>" . 'http://mens-watch.biz/list/control/list_control.php?MAKER=' . $shouhin_id[$i] . "</loc>" . "\n";
+			print " <changefreq>hourly</changefreq>\n";
+			print "</url>\n";
+			print "\n";
+		
+		}
+	}
+
+	//------------------------------------------------my-shop.msweb ブランド・リンク &を&amp;に置き換えること
+
+	elseif ( $SHORI == 'my-shop' ){
+
+		for ( $i = 0 ; $i < count($item_id) ; $i++ ){
+		
+			print "<url>\n";
+			print " <loc>" . 'http://my-shop.msweb.biz/list/control/list_control.php?MAKER=' . $item_id[$i] . "</loc>" . "\n";
+			print " <changefreq>hourly</changefreq>\n";
+			print "</url>\n";
+			print "\n";
+		
+		}
+
+		for ( $i = 0 ; $i < count($sh_maker) ; $i++ ){
+		
+			print "<url>\n";
+			print " <loc>" . "http://my-shop.msweb.biz/list/control/list_control.php?BLAND=$sh_maker[$i]&amp;MAKER=$sub_ca_item_id[$i]" . "</loc>" . "\n";
+			print " <changefreq>hourly</changefreq>\n";
+			print "</url>\n";
+			print "\n";
+		
+		}
+
+	}
+
+	//------------------------------------------------osaifu ブランド・リンク
+
+	elseif ( $SHORI == 'osaifu' ){
+
+		print "<url>\n";
+		print " <loc>" . "http://osaifu-net.biz/list/control/list_control.php?KEIJOU=1" . "</loc>" . "\n";
+		print " <changefreq>hourly</changefreq>\n";
+		print "</url>\n";
+		print "\n";
+
+		print "<url>\n";
+		print " <loc>" . "http://osaifu-net.biz/list/control/list_control.php?KEIJOU=2" . "</loc>" . "\n";
+		print " <changefreq>hourly</changefreq>\n";
+		print "</url>\n";
+		print "\n";
+
+		for ( $i = 0 ; $i < count($sh_maker) ; $i++ ){
+		
+			print "<url>\n";
+			print " <loc>" . "http://osaifu-net.biz/list/control/list_control.php?MAKER=$sh_maker[$i]" . "</loc>" . "\n";
+			print " <changefreq>hourly</changefreq>\n";
+			print "</url>\n";
+			print "\n";
+		
+		}
+
+	}
+
+
+	//------------------------------------------------best-my-watch.net リスト・ページ
+
+	elseif ( $SHORI == 'best-my-watch_list' ){
+
+		$page_count = 1260;
+
+		for ( $i = 0 ; $i < $page_count  ; $i+=10 ){
+		
+			print "<url>\n";
+			print " <loc>" . "http://best-my-watch.net/list_control.php?MAKER=CASIO-G-SHOCK&NEXT=ON&KASAN=10&offset=$i" . "</loc>" . "\n";
+			print " <changefreq>hourly</changefreq>\n";
+			print "</url>\n";
+			print "\n";
+		
+		}
+	}
+
+	//------------------------------------------------keitai-my-shop リスト・ページ
+
+	elseif ( $SHORI == 'keitai-my-shop_list' ){
+
+		for ( $i = 0 ; $i < $page_count  ; $i+=10 ){
+		
+			print "<url>\n";
+			print " <loc>" . "http://keitai-my-shop.msweb.biz/k_list/control/list_control.php?NEXT=ON&amp;KASAN=10&amp;offset=$i" . "</loc>" . "\n";
+			print " <changefreq>hourly</changefreq>\n";
+ 			print " <mobile:mobile/>\n";
+			print "</url>\n";
+			print "\n";
+		
+		}
+	}
+
+	//------------------------------------------------mobile-osaifu リスト・ページ
+
+	elseif ( $SHORI == 'mobile-osaifu_list' ){
+
+		for ( $i = 0 ; $i < $page_count  ; $i+=10 ){
+		
+			print "<url>\n";
+			print " <loc>" . "http://mobile-osaifu-net.biz/k_list/control/list_control.php?NEXT=ON&amp;KASAN=10&amp;offset=$i" . "</loc>" . "\n";
+			print " <changefreq>hourly</changefreq>\n";
+ 			print " <mobile:mobile/>\n";
+			print "</url>\n";
+			print "\n";
+		
+		}
+	}
+
+	//------------------------------------------------単体データ
+	
+	else{
+
+		$roop_count = count($shouhin_id);
+	
+		if( $MAP == 'pc' ){
+			for ( $i = 0 ; $i < $roop_count ; $i++ ){
+		
+				print "<url>\n";
+				print " <loc>" . $URL . $shouhin_id[$i] . "</loc>" . "\n";
+				print " <changefreq>hourly</changefreq>\n";
+				print "</url>\n";
+				print "\n";
+		
+			}
+		}
+	
+		elseif( $MAP == 'mobile' ){
+			for ( $i = 0 ; $i < $roop_count ; $i++ ){
+		
+				print "<url>\n";
+				print " <loc>" . $URL . $shouhin_id[$i] . "</loc>" . "\n";
+				print " <changefreq>hourly</changefreq>\n";
+				print " <mobile:mobile/>\n";
+				print "</url>\n";
+				print "\n";
+		
+			}
+		}
+	}
+
+
+?>

@@ -1,0 +1,295 @@
+	<?php
+
+		error_reporting(0); // ディスプレイ・エラーをoff
+
+		require_once('./inc_sys/coadSys.php'); // 共通コードの読込
+		require_once('./inc/module.php'); // システム共通モジュール、汎用
+		require_once('./inc_sys/module_sys.php'); // システム共通モジュール、システム限定
+
+		$DbConnect = new DbConnectChrono;
+		$DbConnect->doConnect(); // データベースに接続します
+		
+		$coad = new coad;
+		// ヘッダー部分-1
+		$coad->coadHeader_1();
+	?>
+
+
+
+	<?php
+
+		$kaishi_no = $offset + 1; // データ表示開始番号取得
+		
+		$limitt = 10;
+				
+		$end_no = $limitt + $kaishi_no - 1 ; // データ表示終了番号取得
+		if ( $end_no == 0 ){ $end_no = 10; } 
+		
+		if ( $end_no > $search_count ){
+			$end_no = $search_count;
+		}
+		
+		//----------------------------------
+	
+		if( $kaishi_no == $end_no && $end_no == $search_count ){
+			print "<title>腕時計 シニアから若い方まで Best My Watch 商品一覧ページ $sh_name[0] の最後の $end_no 件目を表示しています</title>\n";
+		}
+		
+		elseif ( $search_count != 0 ){
+			print "<title>腕時計 シニアから若い方まで Best My Watch 商品一覧ページ $sh_name[0] の $kaishi_no 件目から $end_no 件目を表示しています</title>\n";
+		}
+
+		elseif ( $search_count == 0 ){
+			print "<title>腕時計 シニアから若い方まで Best My Watch 商品一覧ページ $MAKER 　検索されませんでした。</title>\n";
+		}
+
+	?>
+
+	<?php
+		if( $kaishi_no == $end_no && $end_no == $search_count ){
+			print "<meta name=\"Description\" content=\"腕時計 シニアから若い方まで Best My Watch 商品一覧ページ $sh_name[0]の最後の $end_no 件目を表示しています\" />\n";
+		}
+		
+		elseif ( $search_count != 0 ){
+			print "<meta name=\"Description\" content=\"腕時計 シニアから若い方まで Best My Watch 商品一覧ページ $sh_name[0]の$kaishi_no 件目から$end_no 件目を表示しています\" />\n";
+		}
+
+		elseif ( $search_count == 0 ){
+			print "<meta name=\"Description\" content=\"腕時計 シニアから若い方まで Best My Watch 商品一覧ページ $MAKER 検索されませんでした。\" />\n";
+		}
+	?>
+
+<meta name="Keywords" content="腕時計,販売,セイコー" />
+
+	<?php
+		// ヘッダー部分-2
+		$coad->coadHeader_2();
+	?>
+
+	<?php
+		// ヘッダー部分-3
+		$coad->coadHeader_3();
+
+	?>
+
+<body>
+<?php include_once("./inc_sys/analyticstracking.php") ?>
+
+	<?php
+		// ロゴ表示
+		$coad->logo();
+	?>
+
+<div id="wrapper">
+<div id="contents">
+
+<!--　ページの中央部分　-->
+<div id="column1">    
+<div id="column1_inner">
+      
+	<?php
+		// 上部メイン・リンク
+		$coad->mainLink();
+	?>
+
+<div id="topcontent">
+<img src="/images/title.jpg" alt="タイトル画像">
+</div>
+       
+<!-----------------------------メイン・コンテンツ------ここから---------------->         
+<article>
+<h2 class="h2_midashi_2">商品一覧ページ</h2>
+<ul>
+
+	<?php
+
+		print "$search_count 件が検索されました。<br>\n";
+//		print "初めに在庫有りの商品一覧が表示され、その後に在庫切れの商品一覧が表示されます。<br>\n";
+//		print "在庫有りは $search_1_count 件、在庫切れは $search_0_count 件です。<br>\n";
+
+		//----------------------------
+
+		$kaishi_no = $offset + 1; // データ表示開始番号取得
+		
+		$limitt = 10;
+				
+		$end_no = $limitt + $kaishi_no - 1 ; // データ表示終了番号取得
+		if ( $end_no == 0 ){ $end_no = 10; } 
+		
+		if ( $end_no > $search_count ){
+			$end_no = $search_count;
+		}
+		
+		//----------------------------------
+	
+		if( $kaishi_no == $end_no && $end_no == $search_count ){
+			print "最後の $end_no 件目を表示しています\n";
+		}
+		
+		elseif ( $search_count != 0 ){
+			print "$kaishi_no 件目から$end_no 件目を表示しています\n";
+		}
+
+//		else{
+//			print "<br>検索対象は現在のデータベースには在りません。\n";
+//		}		
+
+		//----------------------------
+
+		$roop_count = count($shouhin_id);
+
+		for ( $i = 0 ; $i < $roop_count ; $i++ ){
+
+			if ( $kt_text[$i] == 'image_2'){
+				$pc_folder = 'image_2';
+			}
+			else{
+				$pc_folder = 'image';
+			}
+
+			print "<a href=\"./tantai_control.php?SHOUHIN=$shouhin_id[$i]\">\n";
+			print "<li><img src=\"./$pc_folder/$shouhin_id[$i]/$sh_gazou_pc_2[$i]\" width=\"300\" border=0 ALT=\"$sh_name_full[$i]\" title=\"$sh_name_full[$i]\"></a><br>\n";
+
+			print "$sh_name_full[$i]\n";
+
+			$sh_hanbai_kakaku_f = $sh_hanbai_kakaku[$i];
+			$sh_hanbai_kakaku_keta = number_format($sh_hanbai_kakaku_f);
+
+			if ( $sh_sankou_kakaku[$i] != 'オープンプライス' ){
+				print "メーカー希望価格　\ $sh_hanbai_kakaku_keta\n";
+			}
+			else{
+				print "メーカー希望価格 $sh_sankou_kakaku[$i]\n";
+			}
+
+			print "<font color=\"red\"><br>当サイト販売価格　\\ $sh_hanbai_kakaku_keta 円</font> \n";
+
+//			print "商品登録日 $sh_day[$i]\n";
+			
+			if ( $sh_zaiko_f[$i] == 0 ){
+				print "　<font class=font12re>この商品は完売いたしました。</font><br><br>\n";
+			}
+			else{
+				print "<br><br>\n";
+			}
+
+
+
+		}
+
+	?>
+
+
+	<?php
+		if ( $search_count != 0 && $search_count > 10 ){
+			if ( $offset != 0 ){
+	
+				print "<a class=\"btn\" href=\"?MAKER=$MAKER&BACK=ON&GENSAN=10&offset=$offset\" style=\"text-decoration:none;\" rel=\"nofollow\">\n";
+		
+				print "前ページへ</a>\n";
+		
+			}
+			else{
+		
+				print "前ページは有りません\n";
+		
+			}		
+		}
+		else{ } // 検索が0の時は出力しない
+	?>
+
+	<?php
+		//------------ページの初めに戻る処理
+		if(  $offset >= 10 ){
+
+		print "　<a class=\"btn\" href=\"?MAKER=$MAKER\" style=\"text-decoration:none;\">\n";
+		print "トップページへ</a>\n";
+
+		}
+
+	?>
+
+	<?php
+	
+		$search_count_offset =  $search_count - $offset; // 総カウント数からオフセツトを差し引きます
+	
+		if ( $search_count != 0  && $search_count > 10 ){
+			if ( $search_count_offset > 10 ){
+	
+				print "　<a class=\"btn\" href=\"?MAKER=$MAKER&NEXT=ON&KASAN=10&offset=$offset\" style=\"text-decoration:none;\">\n";
+		
+				print "次ページへ</a>\n";
+		
+			}
+					
+			else{
+				print "　次ページは有りません\n";
+			}
+		}
+		else{ } // 検索が0の時は出力しない			
+	?>
+
+<br><br>
+
+<!-----------------------------メイン・コンテンツ------ここまで---------------->         
+
+	<?php
+		// -特定商取引に関する法律に基づく表示）
+		$coad->tokutei();
+	?>
+
+</ul>
+</article>
+  
+<!-- / #column1_inner -->
+</div>
+<!--column1-->
+</div>
+    
+<!--　ページの左部分　-->
+<div id="sidebar">
+    
+	<?php
+		// ロゴ（ページ左上のサイト名）
+		$coad->logo_2();
+	?>
+
+      
+<!-- / #sidebar -->
+</div>
+<!-- / #contents -->
+</div>
+<!--　ページの右部分　-->
+<div id="column2">
+
+	<?php
+		// ページの右部分
+		$coad->right();
+	?>
+
+</div>
+    
+<!-- / #column2 -->
+</div>
+ 
+<!--　ページの下部分　-->
+	<?php
+		// ページの右部分
+		$coad->footer();
+	?>
+  
+<!-- / #wrapper -->
+</div>
+
+	<?php
+		// javascript
+		$coad->javascript();
+	?>
+
+	<?php
+		// /body /html 
+		$coad->endBodyHtml();
+
+		$DbConnect->doClose(); // データベースを切断します			
+
+	?>

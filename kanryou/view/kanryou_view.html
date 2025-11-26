@@ -1,0 +1,133 @@
+	<?php
+
+		require_once('./inc_sys/coadSys.php'); // 共通コードの読込
+		require_once('./inc/module.php'); // システム共通モジュール、汎用
+		require_once('./inc_sys/module_sys.php'); // システム共通モジュール、システム限定
+
+		$DbConnect = new DbConnectChrono;
+		$DbConnect->doConnect(); // データベースに接続します
+		
+		$coad = new coad;
+		// ヘッダー部分-1
+		$coad->coadHeader_1();
+	?>
+
+	<?php
+
+		print "<title>腕時計販売のBest My Watch お申し込み完了</title>\n";
+
+	?>
+
+	<?php
+
+		print "<meta name=\"Description\" content=\"腕時計販売のBest My Watch お申し込み完了\" />\n";
+
+	?>
+
+<meta name="Keywords" content="腕時計,販売,セイコー" />
+
+	<?php
+		// ヘッダー部分-2
+		$coad->coadHeader_2();
+	?>
+
+	<?php
+		// ヘッダー部分-3
+		$coad->coadHeader_3();
+
+	?>
+
+<body>
+<?php include_once("./inc_sys/analyticstracking.php") ?>
+
+	<?php
+		// ロゴ表示
+		$coad->logo();
+	?>
+
+<div id="wrapper">
+<div id="contents">
+
+<!--　ページの中央部分　-->
+<div id="column1">    
+<div id="column1_inner">
+      
+	<?php
+		// 上部メイン・リンク
+		$coad->mainLink();
+	?>
+
+<div id="topcontent">
+<img src="/images/title.jpg" alt="タイトル画像">
+</div>
+       
+<!-----------------------------メイン・コンテンツ------ここから---------------->         
+<article>
+<h2 class="h2_midashi_2">お申し込みが完了しました</h2>
+<ul>
+
+<li>お申し込みが完了しました、控えのメールを送信しております。内容をご確認下さい。<br>
+今回はbest-my-watch.netにご注文をいただき有難うございます。今後ともbest-my-watch.netをよろしくお願いいたします。</li>
+
+<!-----------------------------メイン・コンテンツ------ここまで---------------->         
+
+	<?php
+		// -特定商取引に関する法律に基づく表示）
+		$coad->tokutei();
+	?>
+
+</ul>
+</article>
+  
+<!-- / #column1_inner -->
+</div>
+<!--column1-->
+</div>
+    
+<!--　ページの左部分　-->
+<div id="sidebar">
+    
+	<?php
+		// ロゴ（ページ左上のサイト名）
+		$coad->logo_2();
+	?>
+
+      
+<!-- / #sidebar -->
+</div>
+<!-- / #contents -->
+</div>
+<!--　ページの右部分　-->
+<div id="column2">
+
+	<?php
+		// ページの右部分
+		$coad->right();
+	?>
+
+</div>
+    
+<!-- / #column2 -->
+</div>
+ 
+<!--　ページの下部分　-->
+	<?php
+		// ページの右部分
+		$coad->footer();
+	?>
+  
+<!-- / #wrapper -->
+</div>
+
+	<?php
+		// javascript
+		$coad->javascript();
+	?>
+
+	<?php
+		// /body /html 
+		$coad->endBodyHtml();
+
+		$DbConnect->doClose(); // データベースを切断します			
+
+	?>

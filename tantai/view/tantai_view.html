@@ -1,0 +1,452 @@
+	<?php
+
+		require_once('./inc_sys/coadSys.php'); // 共通コードの読込
+		require_once('./inc/module.php'); // システム共通モジュール、汎用
+		require_once('./inc_sys/module_sys.php'); // システム共通モジュール、システム限定
+
+		$DbConnect = new DbConnectChrono;
+		$DbConnect->doConnect(); // データベースに接続します
+		
+		$coad = new coad;
+		// ヘッダー部分-1
+		$coad->coadHeader_1();
+	?>
+
+	<?php
+
+		print "<title>腕時計 シニアから若い方まで Best My Watch 商品単体ページ $sh_name_full</title>\n";
+
+	?>
+
+	<?php
+
+		print "<meta name=\"Description\" content=\"腕時計販売のBest My Watch 商品単体ページ $sh_name_full\" />\n";
+
+	?>
+
+<meta name="Keywords" content="腕時計,販売,セイコー" />
+
+	<?php
+		// ヘッダー部分-2
+		$coad->coadHeader_2();
+	?>
+
+	<?php
+		// ヘッダー部分-3
+		$coad->coadHeader_3();
+
+	?>
+
+<body>
+<?php include_once("./inc_sys/analyticstracking.php") ?>
+
+	<?php
+		// ロゴ表示
+		$coad->logo();
+	?>
+
+<div id="wrapper">
+<div id="contents">
+
+<!--　ページの中央部分　-->
+<div id="column1">    
+<div id="column1_inner">
+      
+	<?php
+		// 上部メイン・リンク
+		$coad->mainLink();
+	?>
+
+<div id="topcontent">
+<img src="/images/title.jpg" alt="タイトル画像">
+</div>
+       
+<!-----------------------------メイン・コンテンツ------ここから---------------->         
+<article>
+<h2 class="h2_midashi_2">
+
+	<?php
+		print "$sh_name_full\n";
+	?>
+
+</h2>
+<ul>
+
+	<?php
+		print "<strong>＜ 商 品 説 明 ＞</strong><br>";
+		$sh_setsumei_br = nl2br($sh_setsumei);
+		print "$sh_setsumei_br<br>";
+		
+	?>
+
+	<?php
+	
+		if ( $sai_nyuka_flug == 1 ){
+			print "この商品は再入荷しました。\n";
+		}
+	
+	?>
+
+	<?php
+		// 画像格納の親ディレクトリの判定
+		if ( $kt_text == 'image_2'){
+			$pc_folder = 'image_2';
+		}
+		else{
+			$pc_folder = 'image';
+		}
+
+	?>
+
+	<?php
+		if (file_exists("./$pc_folder/$shouhin_id/$sh_gazou_pc_2")){ // 画像ファイルの有無で判定します、データは全て格納さています。
+			print "<img src=\"./$pc_folder/$shouhin_id/$sh_gazou_pc_2\" width=\"500\" ALT=\"$sh_name_full 画像1\" title=\"$sh_name_full 画像1\"><br><br>\n";			
+		}
+		else{
+
+		}
+	?>
+
+	<?php
+		if (file_exists("./$pc_folder/$shouhin_id/$sh_gazou_pc_3")){ // 画像ファイルの有無で判定します、データは全て格納さています。
+			print "<img src=\"./$pc_folder/$shouhin_id/$sh_gazou_pc_3\" width=\"500\" ALT=\"$sh_name_full 画像2\" title=\"$sh_name_full 画像2\"><br><br>\n";
+		}
+		else{
+
+		}
+	?> 
+
+	<?php
+		if (file_exists("./$pc_folder/$shouhin_id/$sh_gazou_pc_4")){ // 画像ファイルの有無で判定します、データは全て格納さています。
+			print "<img src=\"./$pc_folder/$shouhin_id/$sh_gazou_pc_4\" width=\"500\" ALT=\"$sh_name_full 画像3\" title=\"$sh_name_full 画像3\">\n";
+		}
+		else{
+
+		}
+	?>
+
+
+<table width="500" class="ta1 mb1em">
+
+	<?php
+
+		//-----------------------------------
+		if ( $sh_sankou_joudai == '1' and ereg( 'G-SHOCK', $sh_name_full)){
+			print "<tr>\n"; 
+			print "<th>性別対応</th>\n";
+			print "<td>男性・メンズ(MENS)用</td>\n";
+			print "</tr>\n";
+		}
+		if ( $sh_sankou_joudai == '1' and ereg( 'Baby-G', $sh_name_full) ){
+			print "<tr>\n"; 
+			print "<th>性別対応</th>\n";
+			print "<td>女性・レディース(LADIES)用</td>\n";
+			print "</tr>\n";
+		}
+
+		//-----------------------------------
+		if ( $sh_sankou_joudai == '2' and ereg( 'ユニセックス', $sh_name_full) ){
+			print "<tr>\n"; 
+			print "<th>性別対応</th>\n";
+			print "<td>男性・メンズ(MENS)用　男女兼用</td>\n";
+			print "</tr>\n";
+		}
+		elseif ( $sh_sankou_joudai == '4' and ereg( 'ユニセックス', $sh_name_full) ){
+			print "<tr>\n"; 
+			print "<th>性別対応</th>\n";
+			print "<td>男性・メンズ(MENS)用　男女兼用</td>\n";
+			print "</tr>\n";
+		}
+		elseif ( $sh_sankou_joudai == '2'){
+			print "<tr>\n"; 
+			print "<th>性別対応</th>\n";
+			print "<td>男性・メンズ(MENS)用</td>\n";
+			print "</tr>\n";
+		}
+
+		//-----------------------------------
+		if ( $sh_sankou_joudai == '3' and ereg( 'ユニセックス', $sh_name_full) ){
+			print "<tr>\n"; 
+			print "<th>性別対応</th>\n";
+			print "<td>女性・レディース(LADIES)用　男女兼用</td>\n";
+			print "</tr>\n";
+		}
+		elseif ( $sh_sankou_joudai == '3'){
+			print "<tr>\n"; 
+			print "<th>性別対応</th>\n";
+			print "<td>女性・レディース(LADIES)用</td>\n";
+			print "</tr>\n";
+		}
+
+		//-----------------------------------
+		if ( $sh_sankou_joudai == '4' ){
+			print "<tr>\n"; 
+			print "<th>性別対応</th>\n";
+			print "<td>男性・メンズ(MENS)用</td>\n";
+			print "</tr>\n";
+		}
+
+	?>
+
+	<?php
+	
+		if ( $sh_size != '' ){
+			print "<tr>\n"; 
+			print "<th>サイズ・重量</th>\n";
+			print "<td>\n";
+
+			$sh_size_br = nl2br($sh_size);
+			print $sh_size_br;
+
+			print "</td>\n";
+			print "</tr>\n";
+		}
+		
+	?>
+
+	<?php
+	
+		if ( $sh_sozai != '' ){
+			print "<tr> \n";
+			print "<th>素材</th>\n";
+			print "<td>\n";
+
+			$sh_sozai_br = nl2br($sh_sozai);
+			print $sh_sozai_br;
+
+			print "</td>\n";
+			print "</tr>\n";
+		}
+		
+	?>
+
+	<?php
+	
+		if ( $sh_shiyou != '' ){
+			print "<tr> \n";
+			print "<th>仕様 </th>\n";
+			print "<td>\n";
+
+
+			$sh_shiyou_br = nl2br($sh_shiyou);
+			print $sh_shiyou_br;
+
+			print "</td>\n";
+			print "</tr>\n";
+		}
+		
+	?>
+
+	<?php
+	
+		if ( $sh_fuzoku != '' ){
+			print "<tr> \n";
+			print "<th>付属品</th>\n";
+			print "<td>\n";
+
+			$sh_fuzoku_br = nl2br($sh_fuzoku);
+			print $sh_fuzoku_br;
+
+			print "</td>\n";
+			print "</tr>\n";
+		}
+		
+	?>
+
+	<?php
+	
+		if ( $sh_hoshou != '' ){
+			print "<tr> \n";
+			print "<th>保証期間</th>\n";
+			print "<td>\n";
+
+			print $sh_hoshou;
+
+			print "</td>\n";
+			print "</tr>\n";
+		}
+		
+	?>
+
+	<?php
+	
+		if ( $sh_sankou_kakaku != '' ){
+			print "<tr> \n";
+			print "<th>メーカー希望価格</th>\n";
+			print "<td>\n";
+
+			if ( $sh_sankou_kakaku != 'オープンプライス' ){
+				print "\ $sh_sankou_kakaku\n";
+			}
+			else{
+				print " $sh_sankou_kakaku\n";
+			}
+
+			print "</td>\n";
+			print "</tr>\n";
+		}
+		
+	?>
+
+</table>
+
+<form name="form1" method="post" action="./shukei_control.php">
+
+	<?php
+		if ( $sh_zaiko_f == 0 ){
+			print "<font class=font12re>この商品は完売いたしましたのでご購入することはできません。</font>\n";
+		}
+		elseif( $sh_zaiko_f == 3 ){
+			print "<font class=font12bl>この商品は在庫が僅かです、現在在庫切れの可能性があります。\n";
+			print "商品が無い場合でも仕入先に入手を依頼しますがお届けできない場合もありますのでご了承願います。</font>\n";
+		}
+	?>
+
+	<?php
+		if ( $sh_zaiko_f == '1' ){
+			print "<font class=\"font12re\">カートに入れられても商品の削除、数量変更ができます。</font>\n";
+		}
+	?>
+
+<table class="ta1 mb1em">
+<tr>
+<td width="157"> 
+
+	<?php
+		if ( $sh_sankou_kakaku != 'オープンプライス' ){
+			print "定価 \ $sh_sankou_kakaku ";
+		}
+		else{
+			print "定価 オープンプライス";
+		}
+	
+		
+	?>
+
+</td>
+<td width="218"><div align="right"><font color=red>販売価格 \ 
+
+	<?php
+		$sh_hanbai_kakaku_keta = number_format($sh_hanbai_kakaku);
+		print $sh_hanbai_kakaku_keta;
+	?>
+
+ 円</font>　 
+ 
+ 	<?php
+ 		
+ 		if ( $sh_zaiko_f == 1 || $sh_zaiko_f == 3 ){
+			print "<select name=\"SURYOU\">\n";
+			print "<option>1</option>\n";
+			print "<option>2</option>\n";
+			print "<option>3</option>\n";
+			print "<option>4</option>\n";
+			print "<option>5</option>\n";
+			print "<option>6</option>\n";
+			print "<option>7</option>\n";
+			print "<option>8</option>\n";
+			print "<option>9</option>\n";
+			print "<option>10</option>\n";
+			print "</select>\n";
+ 		}
+ 		elseif( $sh_zaiko_f == 0 ){
+ 			
+ 		}
+	?>
+
+　</div></td>
+
+
+	<?php
+		print "<input type=hidden name=shouhin_id value=\"$shouhin_id\">\n";
+	?>
+
+
+</tr>
+</table>
+
+	<?php
+		if( $sh_zaiko_f == 1 || $sh_zaiko_f == 3){
+//			print "<ceter>在庫有ります</ceter><br>\n";
+			print "<ceter><input type=submit value=\"カートに入れます\"></ceter>\n";
+		}
+		elseif ( $sh_zaiko_f == 0 ){
+//			print "<ceter><font  color=red>完売いたしました。</font></ceter>\n";
+		}
+	?>
+
+
+</form>
+
+<!-- 在庫切れでは以下の場合があります。<br>
+・メーカーの生産打ち切り、もしくは諸般の事情で入荷しない場合があります。<br>
+・現行の商品が廃止され、新しい型番で新規入荷する場合があります、<br>
+・商品の再入荷に数ヶ月を要する場合がございます、商品によっては1年近いケース もあります。<br>
+・再入荷の予定は未定でございます。<br>
+・並行輸入の商品の場合は販売価格が変動する場合があります。<br>
+・再入荷した商品の予約による留め置きは実施しておりません。 -->
+
+
+
+<!-----------------------------メイン・コンテンツ------ここまで---------------->         
+
+	<?php
+		// -特定商取引に関する法律に基づく表示）
+		$coad->tokutei();
+	?>
+
+</ul>
+</article>
+  
+<!-- / #column1_inner -->
+</div>
+<!--column1-->
+</div>
+    
+<!--　ページの左部分　-->
+<div id="sidebar">
+    
+	<?php
+		// ロゴ（ページ左上のサイト名）
+		$coad->logo_2();
+	?>
+
+      
+<!-- / #sidebar -->
+</div>
+<!-- / #contents -->
+</div>
+<!--　ページの右部分　-->
+<div id="column2">
+
+	<?php
+		// ページの右部分
+		$coad->right();
+	?>
+
+</div>
+    
+<!-- / #column2 -->
+</div>
+ 
+<!--　ページの下部分　-->
+	<?php
+		// ページの右部分
+		$coad->footer();
+	?>
+  
+<!-- / #wrapper -->
+</div>
+
+	<?php
+		// javascript
+		$coad->javascript();
+	?>
+
+	<?php
+		// /body /html 
+		$coad->endBodyHtml();
+
+		$DbConnect->doClose(); // データベースを切断します			
+
+	?>

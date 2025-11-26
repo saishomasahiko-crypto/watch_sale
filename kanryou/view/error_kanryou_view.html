@@ -1,0 +1,143 @@
+	<?php
+
+		require_once('./inc_sys/coadSys.php'); // 共通コードの読込
+		require_once('./inc/module.php'); // システム共通モジュール、汎用
+		require_once('./inc_sys/module_sys.php'); // システム共通モジュール、システム限定
+
+		$DbConnect = new DbConnectChrono;
+		$DbConnect->doConnect(); // データベースに接続します
+		
+		$coad = new coad;
+		// ヘッダー部分-1
+		$coad->coadHeader_1();
+	?>
+
+	<?php
+
+		print "<title>腕時計販売のBest My Watch お申し込み処理が不正</title>\n";
+
+	?>
+
+	<?php
+
+		print "<meta name=\"Description\" content=\"腕時計販売のBest My Watch お申し込み処理が不正\" />\n";
+
+	?>
+
+<meta name="Keywords" content="腕時計,販売,セイコー" />
+
+	<?php
+		// ヘッダー部分-2
+		$coad->coadHeader_2();
+	?>
+
+	<?php
+		// ヘッダー部分-3
+		$coad->coadHeader_3();
+
+	?>
+
+<body>
+
+	<?php
+		// ロゴ表示
+		$coad->logo();
+	?>
+
+<div id="wrapper">
+<div id="contents">
+
+<!--　ページの中央部分　-->
+<div id="column1">    
+<div id="column1_inner">
+      
+	<?php
+		// 上部メイン・リンク
+		$coad->mainLink();
+	?>
+
+<div id="topcontent">
+<img src="/images/title.jpg">
+</div>
+       
+<!-----------------------------メイン・コンテンツ------ここから---------------->         
+<article>
+<h2 class="h2_midashi_2">処理が不正です</h2>
+<ul>
+
+	<?php
+		if ( $hantei_shori == 0 ){
+			print "$K_NAME 様のご注文は既に処理済です。\n";
+			print "<br><br>\n";
+			print "ご注文内容を管理者と\n";
+			print $K_NAME;
+			print " 様に既にメールで送信しておりますので内容をご確認下さい。\n";	
+		}
+		elseif ( $otodoke_hantei == 2 ){
+			print "お届け先の情報が不完全です。\n";
+			print "<br><br>\n";
+			print "戻って追加、訂正をお願いします。\n";	
+		}
+	?>
+<!-----------------------------メイン・コンテンツ------ここまで---------------->         
+
+	<?php
+		// -特定商取引に関する法律に基づく表示）
+		$coad->tokutei();
+	?>
+
+</ul>
+</article>
+  
+<!-- / #column1_inner -->
+</div>
+<!--column1-->
+</div>
+    
+<!--　ページの左部分　-->
+<div id="sidebar">
+    
+	<?php
+		// ロゴ（ページ左上のサイト名）
+		$coad->logo_2();
+	?>
+
+      
+<!-- / #sidebar -->
+</div>
+<!-- / #contents -->
+</div>
+<!--　ページの右部分　-->
+<div id="column2">
+
+	<?php
+		// ページの右部分
+		$coad->right();
+	?>
+
+</div>
+    
+<!-- / #column2 -->
+</div>
+ 
+<!--　ページの下部分　-->
+	<?php
+		// ページの右部分
+		$coad->footer();
+	?>
+  
+<!-- / #wrapper -->
+</div>
+
+	<?php
+		// javascript
+		$coad->javascript();
+	?>
+
+	<?php
+		// /body /html 
+		$coad->endBodyHtml();
+
+		$DbConnect->doClose(); // データベースを切断します			
+
+	?>
