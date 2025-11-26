@@ -1,0 +1,431 @@
+	<?php
+
+		require_once('./inc_sys/coadSys.php'); // 共通コードの読込
+		require_once('./inc/module.php'); // システム共通モジュール、汎用
+		require_once('./inc_sys/module_sys.php'); // システム共通モジュール、システム限定
+
+		$DbConnect = new DbConnectChrono;
+		$DbConnect->doConnect(); // データベースに接続します
+		
+		$coad = new coad;
+		// ヘッダー部分-1
+		$coad->coadHeader_1();
+	?>
+
+	<?php
+
+		print "<title>腕時計販売のBest My Watch お申し込み内容の確認</title>\n";
+
+	?>
+
+	<?php
+
+		print "<meta name=\"Description\" content=\"腕時計販売のBest My Watch お申し込み内容の確認\" />\n";
+
+	?>
+
+<meta name="Keywords" content="腕時計,販売,セイコー" />
+
+	<?php
+		// ヘッダー部分-2
+		$coad->coadHeader_2();
+	?>
+
+	<?php
+		// ヘッダー部分-3
+		$coad->coadHeader_3();
+
+	?>
+
+<body>
+<?php include_once("./inc_sys/analyticstracking.php") ?>
+
+	<?php
+		// ロゴ表示
+		$coad->logo();
+	?>
+
+<div id="wrapper">
+<div id="contents">
+
+<!--　ページの中央部分　-->
+<div id="column1">    
+<div id="column1_inner">
+      
+	<?php
+		// 上部メイン・リンク
+		$coad->mainLink();
+	?>
+
+<div id="topcontent">
+<img src="/images/title.jpg" alt="タイトル画像">
+</div>
+       
+<!-----------------------------メイン・コンテンツ------ここから---------------->         
+<article>
+<h2 class="h2_midashi_2">お申し込み内容の確認</h2>
+<ul>
+<h2 class="h2_midashi_3">ご注文内容</h2>
+
+	<?php
+	
+		// $o_shouhin_id
+		// $o_sh_name_full
+		// $o_sh_hanbai_kakaku
+		// $o_sh_zaiko_f
+		
+		// $e_suryou
+		
+		$all_suryou = null;
+		$goukei_all_hanbai_kakaku = null;
+		$goukei_all_hanbai_kakaku_keta = null;
+	
+		for ( $i = 0 ; $i < count($o_shouhin_id) ; $i++ ){
+			
+			
+			print "[商品名]\n";
+			print "$o_sh_name_full[$i]<br>\n";
+			
+			
+			print "[数量]\n";
+			print "$e_suryou[$i]<br>\n";
+			
+			$all_suryou += $e_suryou[$i]; // 総個数
+			
+			print "[販売価格]\n";
+			$o_sh_hanbai_kakaku_keata = number_format($o_sh_hanbai_kakaku[$i]);
+			print "$o_sh_hanbai_kakaku_keata 円<br>\n";
+			
+			print "[合計金額]\n";
+			$all_hanbai_kakaku = $e_suryou[$i] * $o_sh_hanbai_kakaku[$i];
+			$all_hanbai_kakaku_keta = number_format($all_hanbai_kakaku);
+			print "$all_hanbai_kakaku_keta 円<br><hr>\n";
+			
+			$goukei_all_hanbai_kakaku += $all_hanbai_kakaku; // 商品合計金額
+			$goukei_all_hanbai_kakaku_keta = number_format($goukei_all_hanbai_kakaku);
+			
+			
+		}
+
+		print "[ご注文総数量]\n";
+		print "$all_suryou 個<br>\n";
+		print "[商品合計金額]\n";
+		print "$goukei_all_hanbai_kakaku_keta 円(税込み)<br>\n";
+	?>
+	
+[送料]
+
+	<?php
+	
+		$souryou = new souryou;
+		$souryou_data = $souryou->souryouMe();
+			
+		if ( $souryou_data[0] > $goukei_all_hanbai_kakaku ){
+			print "$souryou_data[1] 円(税込み)<br>";
+				
+			$souryou_value = $souryou_data[1]; // 計算用の変数
+				
+		}
+		else{
+			print "無 料<br>";
+				
+			$souryou_value = 0; // 計算用の変数
+		}
+	?>
+
+[代引き手数料]
+
+	<?php
+		$daibiki = new daibiki;
+		$daibiki_data = $daibiki->daibikiMe();
+			
+		print $daibiki_data;
+	?>
+
+ 円(税込み)<br>
+
+[お支払い総額（税込み商品合計金額 ＋ 送料 ＋ 代引き手数料）]
+
+	<?php
+		$saishu_kingaku = $goukei_all_hanbai_kakaku + $souryou_value + $daibiki_data;
+		$saishu_kingaku_keta = number_format($saishu_kingaku);
+			
+		print $saishu_kingaku_keta;
+	?>
+
+ 円
+
+<h2 class="h2_midashi_3">お客様情報ご記入項目</h2>
+
+<form name="form1" method="post" action="./kanryou_control.php">
+[お名前]
+
+<!----------------------お名前---------------------------->
+
+	<?php
+		print $K_NAME;
+		print "<input type=hidden name=K_NAME value=\"$K_NAME\"><br>\n";
+	?>
+
+[フリガナ]
+
+<!-----------------------フリガナ--------------------------->
+	<?php
+		print $K_FURIGANA;
+		print "<input type=hidden name=K_FURIGANA value=\"$K_FURIGANA\"><br>\n";
+	?>
+
+[メールアドレス]
+
+<!--------------------------メールアドレス------------------------>
+	<?php
+		print $K_MAIL;
+		print "<input type=hidden name=K_MAIL value=\"$K_MAIL\"><br>\n";
+	?>
+
+[ご住所]
+〒
+<!------------------------〒前-------------------------->
+	<?php
+		print $K_YUBIN_F;
+		print "<input type=hidden name=K_YUBIN_F value=\"$K_YUBIN_F\">\n";
+	?>
+-
+<!-------------------------〒後------------------------->
+	<?php
+		print $K_YUBIN_B;
+		print "<input type=hidden name=K_YUBIN_B value=\"$K_YUBIN_B\">\n";
+	?>
+<br>
+<!-------------------------都道府県------------------------->
+	<?php
+		print $K_TODOUFUKEN;
+		print "<input type=hidden name=K_TODOUFUKEN value=\"$K_TODOUFUKEN\">\n";
+	?>
+<!------------------------住所-------------------------->
+	<?php
+		print $K_ADRESS;
+		print "<input type=hidden name=K_ADRESS value=\"$K_ADRESS\"><br>\n";
+	?>
+
+[電話番号]
+
+<!---------------------電話番号　前----------------------------->
+	<?php
+		print $K_TEL_F;
+		print "<input type=hidden name=K_TEL_F value=\"$K_TEL_F\">\n";
+	?>
+- 
+<!---------------------電話番号　中----------------------------->
+	<?php
+		print $K_TEL_C;
+		print "<input type=hidden name=K_TEL_C value=\"$K_TEL_C\">\n";
+	?>
+- 
+<!----------------------電話番号　後---------------------------->
+	<?php
+		print $K_TEL_B ;
+		print "<input type=hidden name=K_TEL_B value=\"$K_TEL_B\"><br>\n";
+	?>
+
+[配達希望日]
+
+	<?php
+		if ( $K_HAITATSU == 'OFF'){
+			print "指定しない<br>\n";
+		}
+		else{
+			print "指定する" . '　' . $K_HAITATSU_MOUTH . '月' . $K_HAITATSU_DAY . '日'. "<br>";
+		}
+		
+		print "<input type=hidden name=K_HAITATSU value=\"$K_HAITATSU\">\n";
+		print "<input type=hidden name=K_HAITATSU_MOUTH value=\"$K_HAITATSU_MOUTH\">\n";
+		print "<input type=hidden name=K_HAITATSU_DAY value=\"$K_HAITATSU_DAY\">\n";
+	?>
+
+[配達時間指定]
+
+	<?php
+		if ( $K_HAITATSU_HOUR == '0' ){
+			print '指定無し<br>';
+		}
+		elseif ( $K_HAITATSU_HOUR == '1' ){
+			print '午前中<br>';
+		}
+		elseif ( $K_HAITATSU_HOUR == '12-14' ){
+			print '12:00～14:00<br>';
+		}
+		elseif ( $K_HAITATSU_HOUR == '14-16' ){
+			print '14:00～16:00<br>';
+		}
+		elseif ( $K_HAITATSU_HOUR == '16-18' ){
+			print '16:00～18:00<br>';
+		}
+		elseif ( $K_HAITATSU_HOUR == '18-20' ){
+			print '18:00～20:00<br>';
+		}
+		elseif ( $K_HAITATSU_HOUR == '20-21' ){
+			print '20:00～21:00<br>';
+		}
+		
+		print "<input type=hidden name=K_HAITATSU_HOUR value=\"$K_HAITATSU_HOUR\">\n";
+	?>
+
+[連絡事項]<br>
+
+<!---------------------連絡事項----------------------------->
+	<?php
+		$K_RENRAKU_br = nl2br($K_RENRAKU);
+		print "$K_RENRAKU_br<br>";
+		
+		print "<input type=hidden name=K_RENRAKU value=\"$K_RENRAKU\">\n";
+	?>
+
+	<?php
+		// $otodoke_hanteiの変数が「1」はお届け先が申し込み住所、「3」お届け先が別住所
+	?>
+	
+	<?php
+		print "<input type=hidden name=otodoke_hantei value=$otodoke_hantei>\n";
+	
+		if ( $otodoke_hantei == 1 ){
+			print "<span class=font12>上記のお申し込み住所がお届け先となります。</sapn><br><br>\n";
+		}
+		elseif ( $otodoke_hantei == 3 || $otodoke_hantei == 2){
+	
+			if ( $otodoke_hantei == 3 ){
+				print "<font class=font12>お届け先は下記となります。</font><br>\n";
+				print "<font class=font12re>※</font><font class=font12> 代引きのご請求は下記のお客様となりますのでご注意下さい。\n";
+			}
+			elseif( $otodoke_hantei == 2 ){
+				print "<font class=font12re>お届け先の項目に漏れがあります、前の画面に戻って追加して下さい。<br>\n";
+			}
+			
+			print "</font>\n";
+			print "[お名前]\n";
+			print "<!-------------------お名前------------------------------->\n";
+			print $O_NAME;
+			print "<input type=hidden name=O_NAME value=\"$O_NAME\"><br>\n";
+
+			print "[ご住所]\n";
+			print "〒 \n";
+			print "<!---------------------〒　前----------------------------->\n";
+
+			print $O_YUBIN_F;
+			print "<input type=hidden name=O_YUBIN_F value=\"$O_YUBIN_F\">\n";
+
+			print "- \n";
+			print "<!---------------------〒　後----------------------------->\n";
+
+			print $O_YUBIN_B;
+			print "<input type=hidden name=O_YUBIN_B value=\"$O_YUBIN_B\">\n";
+
+			print " <br> \n";
+			print " <!--------------------都道府県------------------------------>\n";
+
+			print $O_TODOUFUKEN;
+			print "<input type=hidden name=O_TODOUFUKEN value=\"$O_TODOUFUKEN\"><br>\n";
+
+			print "<!------------------------住所-------------------------->\n";
+
+			print $O_ADRESS;
+			print "<input type=hidden name=O_ADRESS value=\"$O_ADRESS\"><br>\n";
+
+			print "[電話番号]\n";
+			print "<!-----------------------電話番号　前--------------------------->\n";
+
+			print $O_TEL_F;
+			print "<input type=hidden name=O_TEL_F value=\"$O_TEL_F\">\n";
+
+			print "- \n";
+			print "<!------------------------電話番号　中-------------------------->\n";
+	
+			print $O_TEL_C;
+			print "<input type=hidden name=O_TEL_C value=\"$O_TEL_C\">\n";
+
+			print "- \n";
+			print "<!------------------------電話番号　後-------------------------->\n";
+
+			print $O_TEL_B;
+			print "<input type=hidden name=O_TEL_B value=\"$O_TEL_B\"><br>\n";
+
+		}
+	?>
+
+<hr>	
+<font class=font12>メールアドレスをお持ちで無い場合はご注文控えを送信できません。<br>
+この画面をプリント・アウトしていただくか内容を控えていただくようお願いします。</font>
+<br><br>
+
+	<?php
+		print "<input type=\"hidden\" name=\"session_id\" value=\"$session_id\">\n";
+	?>
+
+<input type=submit name="Submit3" value="お申し込みを完了">
+
+</form>
+
+<A href="javascript:history.back()" class="btn" style="text-decoration:none;">　　前に戻ります　　</a>
+
+<!-----------------------------メイン・コンテンツ------ここまで---------------->         
+
+	<?php
+		// -特定商取引に関する法律に基づく表示）
+		$coad->tokutei();
+	?>
+
+</ul>
+</article>
+  
+<!-- / #column1_inner -->
+</div>
+<!--column1-->
+</div>
+    
+<!--　ページの左部分　-->
+<div id="sidebar">
+    
+	<?php
+		// ロゴ（ページ左上のサイト名）
+		$coad->logo_2();
+	?>
+
+      
+<!-- / #sidebar -->
+</div>
+<!-- / #contents -->
+</div>
+<!--　ページの右部分　-->
+<div id="column2">
+
+	<?php
+		// ページの右部分
+		$coad->right();
+	?>
+
+</div>
+    
+<!-- / #column2 -->
+</div>
+ 
+<!--　ページの下部分　-->
+	<?php
+		// ページの右部分
+		$coad->footer();
+	?>
+  
+<!-- / #wrapper -->
+</div>
+
+	<?php
+		// javascript
+		$coad->javascript();
+	?>
+
+	<?php
+		// /body /html 
+		$coad->endBodyHtml();
+
+		$DbConnect->doClose(); // データベースを切断します			
+
+	?>
